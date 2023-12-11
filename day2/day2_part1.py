@@ -6,10 +6,12 @@ CUBES_MAX = {"red": 12, "green": 13, "blue": 14}
 def main() -> int:
     return sum(get_game_ids())
 
+
 def all_games():
     with open("input.txt") as file:
         games = file.readlines()
     return games
+
 
 def possible_games(games_list) -> list:
     for i, game in enumerate(games_list):
