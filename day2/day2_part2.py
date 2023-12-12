@@ -1,39 +1,29 @@
 import re
 
-
-def main() -> int:
-    return sum(games_power())
-
-
-def all_games() -> list:
-    with open("input.txt") as file:
-        games = file.readlines()
-    return games
+with open("input.txt") as file:
+    all_games = file.readlines()
 
 
-def get_minimum_necesarry_cubes(games_list) -> list:
+def minimum_necesarry_cubes(games_list) -> list:
     games = []
     for game in games_list:
         hand = re.findall(r"(\d+) (\w+)", game)
-        minimum_cubes = {"red": 0, "green": 0, "blue": 0}
+        min_cubes = {"red": 0, "green": 0, "blue": 0}
         for number, color in hand:
-            minimum_cubes[color] = (
-                int(number)
-                if minimum_cubes[color] < int(number)
-                else minimum_cubes[color]
+            min_cubes[color] = (
+                int(number) if min_cubes[color] < int(number) else min_cubes[color]
             )
-        games.append(minimum_cubes)
+        games.append(min_cubes)
     return games
 
 
-def games_power():
+def games_power(game_cubes):
     game_power = []
-    games = get_minimum_necesarry_cubes(all_games())
+    games = game_cubes
     for game in games:
-        power = game["red"] * game["green"] * game["blue"]
-        game_power.append(power)
+        game_power.append(game["red"] * game["green"] * game["blue"])
     return game_power
 
 
 if __name__ == "__main__":
-    print(main())
+    print(sum(games_power(minimum_necesarry_cubes(all_games))))
