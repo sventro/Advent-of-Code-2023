@@ -44,11 +44,12 @@ def find_gears(schematic):
         for part in schematic[1]:
             if row_adjacent(part, star):
                 if ranges_overlap(star, part):
-                    print(star, part)
+                    #print(star, part)
                     parts.append((int(part.value)))
-        print(parts)
+        #print(parts)
         if len(parts) == 2:
             gears.append(parts)
+    #print(gears)
     return gears
 
 
