@@ -23,7 +23,7 @@ def parse_cards(all_cards: list[str]):
         for card in re.finditer(CARDS, cards):
             scratch_cards.append(
                 Scratch_card(
-                    card=card.group(1),
+                    card=int(card.group(1)),
                     winning_numbers=card.group(2),
                     numbers=card.group(3),
                 )
