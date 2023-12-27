@@ -7,7 +7,7 @@ with open("input.txt") as file:
     all_games = file.readlines()
 
 
-def valid_games(games_list) -> list:
+def valid_games(games_list: list[list[str]]) -> list[str]:
     for i, game in enumerate(games_list):
         hands = re.findall(r"(\d+) (\w+)", game)
         for number, color in hands:
@@ -16,7 +16,7 @@ def valid_games(games_list) -> list:
     return list(filter(None, games_list))
 
 
-def get_game_ids(games) -> list:
+def get_game_ids(games) -> list[int]:
     game_ids = []
     for game in games:
         game_id = re.findall(r"(?:Game) (\d+)", game)[0]

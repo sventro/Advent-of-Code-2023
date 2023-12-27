@@ -4,7 +4,7 @@ with open("input.txt") as file:
     all_games = file.readlines()
 
 
-def minimum_necesarry_cubes(games_list) -> list:
+def minimum_necesarry_cubes(games_list: list[list[str]]) -> list:
     games = []
     for game in games_list:
         hand = re.findall(r"(\d+) (\w+)", game)
@@ -17,7 +17,7 @@ def minimum_necesarry_cubes(games_list) -> list:
     return games
 
 
-def games_power(game_cubes):
+def games_power(game_cubes: list[int]) -> list[int]:
     game_power = []
     games = game_cubes
     for game in games:

@@ -2,6 +2,8 @@ import re
 import math
 from dataclasses import dataclass
 
+GEARS = r"(\d+|\*)"  # find numbers of any length and  "*"
+
 
 @dataclass(slots=True)
 class Part:
@@ -11,17 +13,19 @@ class Part:
     end: int
 
 
-def main():
+def main() -> int:
     with open("input.txt") as file:
         lines = file.read().splitlines()
-    return sum(gear_ratios(find_gears(parse_schematic(lines))))
+    stars, parts = parse_schematic(lines)
+    gears = find_gears(stars, parts)
+    return sum(calculate_gear_ratios(gears))
 
 
-def parse_schematic(schematic):
+def parse_schematic(schematic: list[str]) -> tuple[list[Part], list[Part]]:
     stars: list[Part] = []
     parts: list[Part] = []
     for row, line in enumerate(schematic):
-        for part in re.finditer(r"(\d+|\*)", line):
+        for part in re.finditer(GEARS, line):
             if part.group() == "*":
                 stars.append(Part(part.group(), row, part.start() - 1, part.end() + 1))
             else:
@@ -29,19 +33,19 @@ def parse_schematic(schematic):
     return stars, parts
 
 
-def row_adjacent(star, part):
+def row_adjacent(star: Part, part: Part) -> bool:
     return part.row == star.row - 1 or part.row == star.row or part.row == star.row + 1
 
 
-def ranges_overlap(star, part):
+def ranges_overlap(star: Part, part: Part) -> bool:
     return range(max(star.start, part.start), min(star.end, part.end))
 
 
-def find_gears(schematic):
+def find_gears(stars: list[Part], parts: list[Part]) -> list[list[int, int]]:
     gears = []
-    for star in schematic[0]:
+    for star in stars:
         parts = list()
-        for part in schematic[1]:
+        for part in parts:
             if row_adjacent(part, star):
                 if ranges_overlap(star, part):
                     parts.append((int(part.value)))
@@ -50,7 +54,7 @@ def find_gears(schematic):
     return gears
 
 
-def gear_ratios(gears):
+def calculate_gear_ratios(gears: list[list[int, int]]) -> list[int]:
     gear_ratios = []
     for gear in gears:
         gear_ratios.append(math.prod(gear))

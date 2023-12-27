@@ -14,10 +14,11 @@ class Scratch_card:
 def main() -> int:
     with open("input.txt") as file:
         card_pile = file.read().splitlines()
-    return sum(check_cards(parse_cards(card_pile)))
+    cards = parse_cards(card_pile)
+    return sum(tally_points(cards))
 
 
-def parse_cards(all_cards: list[str]):
+def parse_cards(all_cards: list[str]) -> list[Scratch_card]:
     scratch_cards = []
     for cards in all_cards:
         for card in re.finditer(CARDS, cards):
@@ -31,7 +32,7 @@ def parse_cards(all_cards: list[str]):
     return scratch_cards
 
 
-def check_cards(cards: list[Scratch_card])->list[int]:
+def tally_points(cards: list[Scratch_card]) -> list[int]:
     all_points = []
     for scratch_card in cards:
         matching_numbers = set(scratch_card.winning_numbers.split()) & set(
