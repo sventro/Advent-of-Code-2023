@@ -44,13 +44,13 @@ def ranges_overlap(star: Part, part: Part) -> bool:
 def find_gears(stars: list[Part], parts: list[Part]) -> list[list[int, int]]:
     gears = []
     for star in stars:
-        parts = list()
+        part_numbers = []
         for part in parts:
             if row_adjacent(part, star):
                 if ranges_overlap(star, part):
-                    parts.append((int(part.value)))
-        if len(parts) == 2:
-            gears.append(parts)
+                    part_numbers.append((int(part.value)))
+        if len(part_numbers) == 2:
+            gears.append(part_numbers)
     return gears
 
 
